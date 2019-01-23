@@ -148,6 +148,11 @@
                 android:targetClass="ink.kscope.parallelspace.MainActivity" />
         </Preference>
 
+        <Preference
+            android:key="pref_trust_apps"
+            android:title="@string/trust_apps_manager_name"
+            android:order="-993" />
+
     </androidx.preference.PreferenceCategory>
 
     <Preference
