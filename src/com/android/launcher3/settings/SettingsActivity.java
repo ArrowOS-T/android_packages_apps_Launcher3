@@ -80,6 +80,8 @@ import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 import java.util.Collections;
 import java.util.List;
 
+import com.android.internal.util.arrow.OmniJawsClient;
+
 /**
  * Settings activity for Launcher. Currently implements the following setting: Allow rotation
  */
@@ -214,7 +216,8 @@ public class SettingsActivity extends CollapsingToolbarBaseActivity
 
         private String mHighLightKey;
         private boolean mPreferenceHighlighted = false;
-        private Preference mDeveloperOptionPref, mShowGoogleAppPref, mHotseatQsbPref, mIconPackPref, mThemeAllAppsIconsPref;
+        private Preference mDeveloperOptionPref, mShowGoogleAppPref, mHotseatQsbPref, mIconPackPref, mThemeAllAppsIconsPref, mWeatherPref;
+        private OmniJawsClient mWeatherClient;
 
         private boolean mPendingRestart = false;
 
@@ -269,10 +272,24 @@ public class SettingsActivity extends CollapsingToolbarBaseActivity
                 getActivity().setTitle(getPreferenceScreen().getTitle());
             }
 
+            mWeatherClient = new OmniJawsClient(getContext());
+            mWeatherPref = screen.findPreference(Utilities.KEY_SHOW_QUICKSPACE_WEATHER);
+            if (!mWeatherClient.isOmniJawsEnabled()) {
+                mWeatherPref.setEnabled(false);
+                mWeatherPref.setSummary(R.string.quick_event_ambient_weather_enabled_info);
+            }
+
             LauncherPrefs.getPrefs(getContext()).registerOnSharedPreferenceChangeListener(
                 (sharedPrefs, key) -> {
                     switch (key) {
                         case KEY_HOTSEAT_QSB:
+                        case Utilities.DESKTOP_SHOW_QUICKSPACE:
+                        case Utilities.KEY_SHOW_ALT_QUICKSPACE:
+                        case Utilities.KEY_SHOW_QUICKSPACE_NOWPLAYING:
+                        case Utilities.KEY_SHOW_QUICKSPACE_WEATHER:
+                        case Utilities.KEY_SHOW_QUICKSPACE_DETAILED_WEATHER:
+                        case Utilities.KEY_SHOW_QUICKSPACE_PSONALITY:
+                        case Utilities.KEY_QUICKSPACE_SHOW_CITY:
                             mPendingRestart = true;
                             break;
                     }
@@ -369,7 +386,35 @@ public class SettingsActivity extends CollapsingToolbarBaseActivity
                         });
                         return true;
                     });
-                    return true;    
+                    return true;
+
+                case Utilities.DESKTOP_SHOW_QUICKSPACE:
+                    preference.setDefaultValue(Utilities.showQuickspace(getContext()));
+                    return true;
+
+                case Utilities.KEY_SHOW_ALT_QUICKSPACE:
+                    preference.setDefaultValue(Utilities.useAlternativeQuickspaceUI(getContext()));
+                    return true;
+
+                case Utilities.KEY_SHOW_QUICKSPACE_PSONALITY:
+                    preference.setDefaultValue(Utilities.isQuickspacePersonalityEnabled(getContext()));
+                    return true;
+
+                case Utilities.KEY_SHOW_QUICKSPACE_NOWPLAYING:
+                    preference.setDefaultValue(Utilities.isQuickspaceNowPlaying(getContext()));
+                    return true;
+
+                case Utilities.KEY_SHOW_QUICKSPACE_WEATHER:
+                    preference.setDefaultValue(Utilities.isQuickspaceWeather(getContext()));
+                    return true;
+
+                case Utilities.KEY_SHOW_QUICKSPACE_DETAILED_WEATHER:
+                    preference.setDefaultValue(Utilities.isQuickSpaceWeatherDetailed(getContext()));
+                    return true;
+
+                case Utilities.KEY_QUICKSPACE_SHOW_CITY:
+                    preference.setDefaultValue(Utilities.QuickSpaceShowCity(getContext()));
+                    return true;
             }
 
             return true;
