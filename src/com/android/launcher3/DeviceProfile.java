@@ -629,7 +629,8 @@ public class DeviceProfile {
                     - hotseatBorderSpace * numShownHotseatIcons;
         } else {
             int columns = inv.hotseatColumnSpan[mTypeIndex];
-            return getIconToIconWidthForColumns(columns);
+            return getIconToIconWidthForColumns(columns)
+                    - hotseatBorderSpace;
         }
     }
 
