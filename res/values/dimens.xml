@@ -26,7 +26,7 @@
 
     <dimen name="dynamic_grid_cell_border_spacing">16dp</dimen>
     <dimen name="cell_layout_padding">10.77dp</dimen>
-    <dimen name="dynamic_grid_cell_padding_x">7dp</dimen>
+    <dimen name="dynamic_grid_cell_padding_x">8dp</dimen>
 
     <!-- Hotseat -->
     <dimen name="dynamic_grid_hotseat_bottom_tall_padding">0dp</dimen>
@@ -104,9 +104,9 @@
 
     <!-- All Apps -->
     <dimen name="all_apps_starting_vertical_translate">300dp</dimen>
-    <dimen name="all_apps_search_bar_field_height">48dp</dimen>
+    <dimen name="all_apps_search_bar_field_height">52dp</dimen>
     <!-- all_apps_search_bar_field_height / 2 -->
-    <dimen name="all_apps_search_bar_content_overlap">24dp</dimen>
+    <dimen name="all_apps_search_bar_content_overlap">26dp</dimen>
     <dimen name="all_apps_search_bar_bottom_padding">36dp</dimen>
     <dimen name="all_apps_empty_search_message_top_offset">40dp</dimen>
     <dimen name="all_apps_header_pill_height">48dp</dimen>
